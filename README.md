@@ -48,16 +48,7 @@ NetworkXに比べて**100,000倍**の速度です(表面符号回路でベンチ
 
 ![PyMatching new vs old vs NetworkX](https://github.com/oscarhiggott/PyMatching/raw/master/benchmarks/surface_codes/surface_code_rotated_memory_x_p_0.001_d_5_7_9_13_17_23_29_39_50_both_bases/pymatching_v0.7_vs_pymatching_v2_vs_networkx_timing_p=0.001_per_round_both_bases_decoded.png)
 
-Sparse blossom is conceptually similar to the approach described in [this paper](https://arxiv.org/abs/1307.1740) 
-by Austin Fowler, although our approach differs in many of the details (which will be explained in our upcoming paper).
-There are even more similarities with the very nice independent work by Yue Wu, who recently released the 
-[fusion-blossom](https://pypi.org/project/fusion-blossom/) library.
-One of the differences with our approach is that fusion-blossom grows the exploratory regions of alternating trees 
-in a similar way to how clusters are grown in Union-Find, whereas our approach instead progresses along a timeline, 
-and uses a global priority queue to grow alternating trees.
-Yue also has a paper coming soon, so stay tuned for that as well.
-
-Sparse blossom は Austin Fowler の [論文](https://arxiv.org/abs/1307.1740) に記載されているものと概念的に似たアプローチとなっていますが、我々のアプローチは細部が色々と異なっています(これについては我々の次の論文で説明されます)。
+Sparse blossomはAustin Fowlerの[論文](https://arxiv.org/abs/1307.1740)に記載されているものと概念的に似たアプローチとなっていますが、我々のアプローチは細部が色々と異なっています(これについては我々の次の論文で説明されます)。
 また、最近[fusion-blossom](https://pypi.org/project/fusion-blossom/)ライブラリーをリリースしたYue Wuによる非常に素晴らしい独立した研究にも類似点があります。
 我々のアプローチとの違いの1つは、fusion-blossomは交互木の探索領域を、Union-Findでクラスタが成長するのと同じような方法で成長させるのに対し、我々のアプローチは時系列に沿って進行することです。
 そして、グローバルな優先順位キューを使用して、交互木を成長させます。
@@ -72,12 +63,14 @@ PyMatchingの最新版は[PyPI](https://pypi.org/project/PyMatching/)からダ�
 pip install pymatching --upgrade
 ```
 
-
 ## 使い方
 
 PyMatching can load matching graphs from a check matrix, a `stim.DetectorErrorModel`, a `networkx.Graph`, a 
 `retworkx.PyGraph` or by adding edges individually with `pymatching.Matching.add_edge` and 
 `pymatching.Matching.add_boundary_edge`.
+
+PyMatching はチェックマトリックス、 `stim.DetectorErrorModel` 、 `networkx.Graph` 、 `retworkx.PyGraph` からマッチンググラフを読み込むことができます。
+あるいは、`pymatching.Matching.add_edge` と `pymatching.Matching.add_boundary_edge` を使って個別にエッジを追加することができます。
 
 ### Stim回路のデコード
 
