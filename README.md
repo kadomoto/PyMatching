@@ -33,7 +33,7 @@ stim, sinter, pymatchingによって回路レベルのノイズを含む誤り�
 blossomアルゴリズムを一般化して、QECに関連する復号化問題を扱えるようにしたものです。
 我々は、検出グラフの検出イベント間の最小重みの経路を見つける問題を _直接_ 解決します。
 これによって、元のblossomアルゴリズムを使用した際に発生する派生グラフのMWPMを見つけるためのコストのかかる全対全ダイクストラ探索を回避することができます。
-新しいバージョンはまたexactです - 以前のバージョンのPyMatchingとは異なり、近似は行われません。
+新しいバージョンはまたexactになっています。以前のバージョンのPyMatchingとは異なり、近似は行われません。
 
 我々の新しい実装は、以前のバージョンのPyMatchingと比較して**100倍以上**高速です。
 NetworkXに比べて**100,000倍**の速度です(表面符号回路でベンチマークした場合)。回路ノイズが0.1%の場合、PyMatchingは
@@ -48,7 +48,7 @@ NetworkXに比べて**100,000倍**の速度です(表面符号回路でベンチ
 
 ![PyMatching new vs old vs NetworkX](https://github.com/oscarhiggott/PyMatching/raw/master/benchmarks/surface_codes/surface_code_rotated_memory_x_p_0.001_d_5_7_9_13_17_23_29_39_50_both_bases/pymatching_v0.7_vs_pymatching_v2_vs_networkx_timing_p=0.001_per_round_both_bases_decoded.png)
 
-Sparse blossomはAustin Fowlerの[論文](https://arxiv.org/abs/1307.1740)に記載されているものと概念的に似たアプローチとなっていますが、我々のアプローチは細部が色々と異なっています(これについては我々の次の論文で説明されます)。
+Sparse blossomはAustin Fowlerの[論文](https://arxiv.org/abs/1307.1740)に記載されているものと概念的に似たアプローチとなっていますが、我々のアプローチは細部が色々と異なっています(これについては我々の次の論文で説明する予定です)。
 また、最近[fusion-blossom](https://pypi.org/project/fusion-blossom/)ライブラリーをリリースしたYue Wuによる素晴らしい独自研究とも類似点があります。
 違いの1つは、fusion-blossomは交互木の探索領域を、Union-Findでクラスタが成長するのと同じような方法で成長させるのに対し、我々のアプローチは時系列に沿って進行することです。
 そして、グローバルな優先順位キューを使用して、交互木を成長させます。
