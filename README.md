@@ -10,24 +10,24 @@ PyMatchingは、量子誤り訂正（QEC）符号の復号のための高速なP
 量子誤り訂正回路からのシンドローム測定値が与えられると、
 MWPMデコーダは、誤りの発生は独立であり、かつグラフ的であるという仮定（各誤りは1つまたは2つの検出イベントを引き起こす）のもと、最も可能性の高い誤り箇所の集合を探索します。
 MWPMデコーダは、[表面符号](https://arxiv.org/abs/quant-ph/0110143)を復号するための最も一般的なデコーダです。
-また、以下のような他のさまざまな符号のデコードに使用できます。
-[サブシステム符号](https://arxiv.org/abs/1207.1443)。
+また、
+[サブシステム符号](https://arxiv.org/abs/1207.1443)、
 [ハニカム符号](https://quantum-journal.org/papers/q-2021-10-19-564/)、
 [2次元双曲線符号](https://arxiv.org/abs/1506.04029)
+といった、他のさまざまな符号のデコードに使用できます。
 
-Version 2 includes a new implementation of the blossom algorithm which is **100-1000x faster** than previous versions
-of PyMatching. 
-PyMatching can be configured using arbitrary weighted graphs, with or without a boundary, and can be combined with 
-Craig Gidney's [Stim](https://github.com/quantumlib/Stim) library to simulate and decode error correction circuits 
-in the presence of circuit-level noise. The [sinter](https://pypi.org/project/sinter/) package combines Stim and 
-PyMatching to perform fast, parallelised monte-carlo sampling of quantum error correction circuits.
+バージョン2にはblossomアルゴリズムの新しい実装が含まれており、以前のバージョンよりも**100-1000倍**高速になりました。
+PyMatching は、境界のあるなしに関わらず、任意の重み付きグラフを使用して設定することができ、
+Craig Gidneyの[Stim](https://github.com/quantumlib/Stim)ライブラリと組み合わせて、回路レベルのノイズがある場合のエラー訂正回路のシミュレーションとデコードを行うことができます。
+と組み合わせて、回路レベルのノイズがある場合のエラー訂正回路をシミュレートし、デコードすることができます。[sinter](https://pypi.org/project/sinter/) パッケージでは、Stim と 
+PyMatching を組み合わせて、量子エラー訂正回路のモンテカルロ・サンプリングを高速・並列に実行します。
 
 Documentation for PyMatching can be found at: [pymatching.readthedocs.io](https://pymatching.readthedocs.io/en/stable/)
 
 To see how stim, sinter and pymatching can be used to estimate the threshold of an error correcting code with 
 circuit-level noise, try out the [stim getting started notebook](https://github.com/quantumlib/Stim/blob/main/doc/getting_started.ipynb).
 
-## The new >100x faster implementation for Version 2
+## Version 2の100倍以上高速な新実装について
 
 Version 2 features a new implementation of the blossom algorithm, which I wrote with Craig Gidney.
 Our new implementation, which we refer to as the _sparse blossom_ algorithm, can be seen as a generalisation of the 
@@ -66,7 +66,7 @@ in a similar way to how clusters are grown in Union-Find, whereas our approach i
 and uses a global priority queue to grow alternating trees.
 Yue also has a paper coming soon, so stay tuned for that as well.
 
-## Installation
+## インストール
 
 The latest version of PyMatching can be downloaded and installed from [PyPI](https://pypi.org/project/PyMatching/) 
 with the command:
@@ -76,13 +76,13 @@ pip install pymatching --upgrade
 ```
 
 
-## Usage
+## 使い方
 
 PyMatching can load matching graphs from a check matrix, a `stim.DetectorErrorModel`, a `networkx.Graph`, a 
 `retworkx.PyGraph` or by adding edges individually with `pymatching.Matching.add_edge` and 
 `pymatching.Matching.add_boundary_edge`.
 
-### Decoding Stim circuits
+### Stim回路のデコード
 
 PyMatching can be combined with [Stim](https://github.com/quantumlib/Stim). Generally, the easiest and fastest way to 
 do this is using [sinter](https://pypi.org/project/stim/) (use v1.10.0 or later), which uses PyMatching and Stim to run 
