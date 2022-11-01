@@ -65,7 +65,7 @@ pip install pymatching --upgrade
 
 ## 使い方
 
-PyMatching はチェックマトリックス、 `stim.DetectorErrorModel` 、 `networkx.Graph` 、 `retworkx.PyGraph` からマッチンググラフを読み込むことができます。
+PyMatching は `stim.DetectorErrorModel` 、 `networkx.Graph` 、 `retworkx.PyGraph` といったチェック行列からマッチンググラフを読み込むことができます。
 あるいは、`pymatching.Matching.add_edge` と `pymatching.Matching.add_boundary_edge` を使って個別にエッジを追加することができます。
 
 ### Stim回路のデコード
@@ -75,7 +75,7 @@ PyMatchingは[Stim](https://github.com/quantumlib/Stim)と組み合わせるこ�
 しかし、このセクションでは、StimとPyMatchingを直接使用し、Python APIの使用方法について説明します。
 Stimをインストールするには、`pip install stim --upgrade` を実行してください。
 
-まず、stimの回路を生成します。ここでは、stimに付属するサーフェスコード回路を使用します。
+まず、stimの回路を生成します。ここでは、stimに付属する表面符号回路を使用します。
 
 ```python
 import numpy as np
