@@ -81,7 +81,7 @@ PyMatchingは[Stim](https://github.com/quantumlib/Stim)と組み合わせるこ�
 しかし、このセクションでは、StimとPyMatchingを直接使用し、Python APIの使用方法について説明します。
 Stimをインストールするには、`pip install stim --upgrade` を実行してください。
 
-First, we generate a stim circuit. Here, we use a surface code circuit included with stim:
+まず、stimの回路を生成します。ここでは、stimに付属するサーフェスコード回路を使用します。
 
 ```python
 import numpy as np
@@ -99,21 +99,25 @@ By setting `decompose_errors=True`, stim decomposes all error mechanisms into _e
 mechanisms (which cause either one or two detection events).
 This ensures that our DEM is graphlike, and can be loaded by pymatching:
 
+次に、stim を用いて `stim.DetectorErrorModel` (DEM) を生成します。これは、実質的には 
+[Tannerグラフ](https://en.wikipedia.org/wiki/Tanner_graph)であり、回路レベルのノイズモデルを記述します。
+`decompose_errors=True` を設定することにより、stim はすべてのエラー機構を _edge-like_ エラー機構（1つまたは2つの検出イベントを引き起こす）に分解します。
+これにより、DEMはグラフ的になり、pymatchingで読み込むことができるようになります。
+
 ```python
 model = circuit.detector_error_model(decompose_errors=True)
 matching = pymatching.Matching.from_detector_error_model(model)
 ```
 
-Next, we will sample 1000 shots from the circuit. Each shot (a row of `shots`) contains the full syndrome (detector 
-measurements), as well as the logical observable measurements, from simulating the noisy circuit:
+次に、回路から1000ショットをサンプリングします。各ショット（`shots`の列）は、完全なシンドローム（検出器 
+の測定値）と、ノイズの多い回路をシミュレートして得られた論理的な観測値からなります。
 
 ```python
 sampler = circuit.compile_detector_sampler()
 syndrome, actual_observables = sampler.sample(shots=1000, separate_observables=True)
 ```
 
-Now we can decode! We compare PyMatching's predictions of the logical observables with the actual observables sampled 
-with stim, in order to count the number of mistakes and estimate the logical error rate:
+これでデコードができるようになりました！PyMatchingの論理的観測値の予測と、stimでサンプリングした実際の観測値を比較し、誤りの数を数え、論理エラー率を推定します。
 
 ```python
 num_errors = 0
@@ -124,7 +128,7 @@ for i in range(syndrome.shape[0]):
 print(num_errors)  # prints 8
 ```
 
-### Loading from a parity check matrix
+### パリティチェック行列からの読み込み
 
 We can also load a `pymatching.Matching` object from a binary
 [parity check matrix](https://en.wikipedia.org/wiki/Parity-check_matrix), another representation of a Tanner graph.
