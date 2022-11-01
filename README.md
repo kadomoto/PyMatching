@@ -49,8 +49,8 @@ NetworkXに比べて**100,000倍**の速度です(表面符号回路でベンチ
 ![PyMatching new vs old vs NetworkX](https://github.com/oscarhiggott/PyMatching/raw/master/benchmarks/surface_codes/surface_code_rotated_memory_x_p_0.001_d_5_7_9_13_17_23_29_39_50_both_bases/pymatching_v0.7_vs_pymatching_v2_vs_networkx_timing_p=0.001_per_round_both_bases_decoded.png)
 
 Sparse blossomはAustin Fowlerの[論文](https://arxiv.org/abs/1307.1740)に記載されているものと概念的に似たアプローチとなっていますが、我々のアプローチは細部が色々と異なっています(これについては我々の次の論文で説明されます)。
-また、最近[fusion-blossom](https://pypi.org/project/fusion-blossom/)ライブラリーをリリースしたYue Wuによる非常に素晴らしい独立した研究にも類似点があります。
-我々のアプローチとの違いの1つは、fusion-blossomは交互木の探索領域を、Union-Findでクラスタが成長するのと同じような方法で成長させるのに対し、我々のアプローチは時系列に沿って進行することです。
+また、最近[fusion-blossom](https://pypi.org/project/fusion-blossom/)ライブラリーをリリースしたYue Wuによる素晴らしい独自研究とも類似点があります。
+違いの1つは、fusion-blossomは交互木の探索領域を、Union-Findでクラスタが成長するのと同じような方法で成長させるのに対し、我々のアプローチは時系列に沿って進行することです。
 そして、グローバルな優先順位キューを使用して、交互木を成長させます。
 Yueは近々論文も発表する予定ですので、そちらもご期待ください。
 
@@ -119,20 +119,22 @@ print(num_errors)  # prints 8
 ### パリティチェック行列からの読み込み
 
 また、バイナリの[パリティチェック行列](https://en.wikipedia.org/wiki/Parity-check_matrix)、Tannerグラフの別の表現、から `pymatching.Matching` オブジェクトをロードすることもできます。
-パリティチェック行列 `H` の各行はパリティチェックに対応し、各列は誤り要因に対応します。
-H` の要素 `H[i,j]` は、パリティチェック `i` が誤り要因 `j` によって反転された場合に 1 となり、そうでない場合に 0 となります。
-PyMatching で使用するためには、`H` の誤り要因は _graphlike_ （グラフ的）である必要があります。
+パリティチェック行列 `H` の各行はパリティチェックに対応し、各列はエラーメカニズムに対応します。
+H` の要素 `H[i,j]` は、パリティチェック `i` がエラーメカニズム `j` によって反転された場合に 1 となり、そうでない場合に 0 となります。
+PyMatching で使用するためには、`H` のエラーメカニズムは _graphlike_ （グラフ的）である必要があります。
 これは、各列には1つまたは2つの1が含まれていなければならないことを意味します（列が1つの1を持つ場合、それは境界に接続されたハーフエッジを表します）。
 
 PyMatchingに `weights` というnumpy配列を与えることで、グラフ内の各エッジに重みを与えることができます。
 `weights` 配列の要素 `weights[j]` は、 `H` の列 `j` に対応するエッジの重みを設定します。
 エラー要因が独立したものとして扱われる場合、通常、エッジ `j` の重みは `log((1-p_j)/p_j)` として設定されます。
 ここで、 `p_j` はエッジ `j` に関連する誤り確率です。
-この設定により、PyMatchingはシンドロームが与えられたときに、最も確率の高い誤り要因の集合を見つけます。
+この設定により、PyMatchingはシンドロームが与えられたときに、最も確率の高いエラーメカニズムの集合を見つけます。
 
 With PyMatching configured using `H` and `weights`, decoding a binary syndrome vector `syndrome` (a numpy array 
 of length `H.shape[0]`) corresponds to finding a set of errors defined in a binary `predictions` vector 
 satisfying `H@predictions % 2 == syndrome` while minimising the total solution weight `predictions@weights`.
+
+PyMatchingが `H` と `weights` を用いて設定されている場合、バイナリシンドロームベクトル `syndrome` (長さ `H.shape[0]` のnumpy配列) のデコードは、 `H@predictions % 2 == syndrome` を満たし、かつ解の総重み `predictions@weights` を最小にするような、バイナリ `predictions` ベクトルで定義されるエラーのセットを見つけることに対応します。
 
 In quantum error correction, rather than predicting which exact set of error mechanisms occurred, we typically want to 
 predict the outcome of _logical observable_ measurements, which are the parities of error mechanisms.
@@ -142,7 +144,12 @@ For example, suppose our syndrome `syndrome`, was the result of a set of errors 
 length `H.shape[1]`), such that `syndrome = H@noise % 2`.
 Our decoding is successful if `observables@noise % 2 == observables@predictions % 2`.
 
-Putting this together, we can decode a distance 5 repetition code as follows:
+量子誤り訂正では、どのエラーメカニズムが発生したかを正確に予測するのではなく、通常、「論理的に観測可能な」測定結果、すなわちエラーメカニズムのパリティ、を予測したいのです。
+これらはバイナリ行列の `observables` で表現されます。チェック行列と同様に、論理観測値 `i` がエラーメカニズム `j` によって反転された場合、`observables[i,j]` は 1 になります。
+例えば、シンドローム `syndrome` が、一連のエラー `noise` （長さ `H.shape[1]` のバイナリ配列）の結果、たとえば、`syndrome = H@noise % 2` であったとします。
+もし、 `observables@noise % 2 == observables@predictions % 2` ならば、我々のデコードは成功です。
+
+これをまとめると、距離5の繰り返し符号を次のようにデコードすることができます。
 
 ```python
 import numpy as np
@@ -162,8 +169,7 @@ print(prediction)  # prints: [0 0 1 1 0]
 print(solution_weight)  # prints: 5.0
 ```
 
-And in order to estimate the logical error rate for a physical error rate of 10%, we can sample 
-as follows:
+また、物理エラー率10%に対する論理エラー率を推定するために、次のようにサンプルします。
 
 ```python
 import numpy as np
@@ -188,10 +194,8 @@ for i in range(1000):
 print(num_errors)  # prints 4
 ```
 
-Note that we can also ask PyMatching to predict the logical observables directly, by supplying them 
-to the `faults_matrix` argument when constructing the `pymatching.Matching` object. This allows the decoder to make 
-some additional optimisations, that speed up the decoding procedure a bit. The following example uses this approach, 
-and is equivalent to the example above:
+`pymatching.Matching` オブジェクト構築の際に `faults_matrix` 引数を与えることで、PyMatching に直接論理的な観測値を予測させることもできます。これによってデコーダは 
+いくつか追加の最適化を行い、デコード処理を少し速くすることができます。次の例では、この方法を使用しており、上で示した例と等価な操作になっています。
 
 ```python
 import numpy as np
@@ -225,6 +229,14 @@ methods, or by loading from a NetworkX or retworkx graph.
 
 For more details on how to use PyMatching,
 see [the documentation](https://pymatching.readthedocs.io).
+
+チェック行列を使う代わりに、Matching オブジェクトを[`Matching.add_edge`](https://pymatching.readthedocs.io/en/stable/api.html#pymatching.matching.Matching.add_edge)
+メソッドと
+[`Matching.add_boundary_edge`](https://pymatching.readthedocs.io/en/stable/api.html#pymatching.matching.Matching.add_boundary_edge) 
+メソッドを用いて構築することもできます。または NetworkX や retworkx のグラフからロードすることによっても構築できます。
+
+PyMatching の使い方の詳細については
+[ドキュメント](https://pymatching.readthedocs.io)を参照してください。
 
 ## Attribution
 
