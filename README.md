@@ -40,13 +40,6 @@ blossomアルゴリズムを一般化して、QECに関連する復号化問題�
 これによって、元のblossomアルゴリズムを使用した際に発生する派生グラフのMWPMを見つけるためのコストのかかる全対全ダイクストラ探索を回避することができます。
 新しいバージョンはまたexactです - 以前のバージョンのPyMatchingとは異なり、近似は行われません。
 
-Our new implementation is **over 100x faster** than previous versions of PyMatching, and is 
-**over 100,000x faster** than NetworkX (benchmarked with surface code circuits). At 0.1% circuit-noise, PyMatching can 
-decode both X and Z basis measurements of surface code circuits up to distance 13 in under 1 microsecond per round 
-of syndrome extraction on a single core (or up to distance 19 if only X-basis measurements are processed - however 
-both X and Z basis measurements must be decoded at scale). Furthermore, the runtime is roughly linear in the number 
-of nodes in the graph.
-
 我々の新しい実装は、以前のバージョンのPyMatchingと比較して**100倍以上**高速です。
 NetworkXに比べて**100,000倍**の速度です(表面符号回路でベンチマークした場合)。回路ノイズが0.1%の場合、PyMatchingは
 距離13までの表面符号回路のXおよびZ基底を、シングルコアでのシンドローム解析1ラウンドあたり1マイクロ秒未満でデコードすることができます（X基底の測定値のみを処理する場合は距離19まで、ただし大規模な状況ではX基底とZ基底の両方を処理する必要があります）。
