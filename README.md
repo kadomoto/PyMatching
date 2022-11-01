@@ -130,19 +130,7 @@ PyMatchingに `weights` というnumpy配列を与えることで、グラフ内
 ここで、 `p_j` はエッジ `j` に関連する誤り確率です。
 この設定により、PyMatchingはシンドロームが与えられたときに、最も確率の高いエラーメカニズムの集合を見つけます。
 
-With PyMatching configured using `H` and `weights`, decoding a binary syndrome vector `syndrome` (a numpy array 
-of length `H.shape[0]`) corresponds to finding a set of errors defined in a binary `predictions` vector 
-satisfying `H@predictions % 2 == syndrome` while minimising the total solution weight `predictions@weights`.
-
 PyMatchingが `H` と `weights` を用いて設定されている場合、バイナリシンドロームベクトル `syndrome` (長さ `H.shape[0]` のnumpy配列) のデコードは、 `H@predictions % 2 == syndrome` を満たし、かつ解の総重み `predictions@weights` を最小にするような、バイナリ `predictions` ベクトルで定義されるエラーのセットを見つけることに対応します。
-
-In quantum error correction, rather than predicting which exact set of error mechanisms occurred, we typically want to 
-predict the outcome of _logical observable_ measurements, which are the parities of error mechanisms.
-These can be represented by a binary matrix `observables`. Similar to the check matrix, `observables[i,j]` is 1 if 
-logical observable `i` is flipped by error mechanism `j`.
-For example, suppose our syndrome `syndrome`, was the result of a set of errors `noise` (a binary array of 
-length `H.shape[1]`), such that `syndrome = H@noise % 2`.
-Our decoding is successful if `observables@noise % 2 == observables@predictions % 2`.
 
 量子誤り訂正では、どのエラーメカニズムが発生したかを正確に予測するのではなく、通常、「論理的に観測可能な」測定結果、すなわちエラーメカニズムのパリティ、を予測したいのです。
 これらはバイナリ行列の `observables` で表現されます。チェック行列と同様に、論理観測値 `i` がエラーメカニズム `j` によって反転された場合、`observables[i,j]` は 1 になります。
@@ -220,15 +208,6 @@ for i in range(1000):
 
 print(num_errors)  # prints 6
 ```
-
-Instead of using a check matrix, the Matching object can also be constructed using
-the [`Matching.add_edge`](https://pymatching.readthedocs.io/en/stable/api.html#pymatching.matching.Matching.add_edge)
-and 
-[`Matching.add_boundary_edge`](https://pymatching.readthedocs.io/en/stable/api.html#pymatching.matching.Matching.add_boundary_edge) 
-methods, or by loading from a NetworkX or retworkx graph. 
-
-For more details on how to use PyMatching,
-see [the documentation](https://pymatching.readthedocs.io).
 
 チェック行列を使う代わりに、Matching オブジェクトを[`Matching.add_edge`](https://pymatching.readthedocs.io/en/stable/api.html#pymatching.matching.Matching.add_edge)
 メソッドと
