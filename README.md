@@ -105,7 +105,7 @@ sampler = circuit.compile_detector_sampler()
 syndrome, actual_observables = sampler.sample(shots=1000, separate_observables=True)
 ```
 
-これでデコードができるようになりました！PyMatchingの論理的観測値の予測と、stimでサンプリングした実際の観測値を比較し、誤りの数を数え、論理エラー率を推定します。
+これでデコードができるようになりました！PyMatchingの論理的観測値の予測結果と、stimでサンプリングした実際の観測値を比較し、誤りの数を数え、論理エラー率を推定します。
 
 ```python
 num_errors = 0
