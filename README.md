@@ -22,11 +22,6 @@ Craig Gidneyの[Stim](https://github.com/quantumlib/Stim)ライブラリと組�
 [sinter](https://pypi.org/project/sinter/) パッケージでは、Stim と 
 PyMatching を組み合わせて、量子エラー訂正回路のモンテカルロ・サンプリングを高速・並列に実行します。
 
-Documentation for PyMatching can be found at: [pymatching.readthedocs.io](https://pymatching.readthedocs.io/en/stable/)
-
-To see how stim, sinter and pymatching can be used to estimate the threshold of an error correcting code with 
-circuit-level noise, try out the [stim getting started notebook](https://github.com/quantumlib/Stim/blob/main/doc/getting_started.ipynb).
-
 PyMatchingのドキュメントは[pymatching.readthedocs.io](https://pymatching.readthedocs.io/en/stable/) をご覧ください。
 
 stim, sinter, pymatchingによって回路レベルのノイズを含む誤り訂正符号の閾値を推定する方法については、[stim getting started notebook](https://github.com/quantumlib/Stim/blob/main/doc/getting_started.ipynb)を試してみてください。
@@ -45,18 +40,13 @@ NetworkXに比べて**100,000倍**の速度です(表面符号回路でベンチ
 距離13までの表面符号回路のXおよびZ基底を、シングルコアでのシンドローム解析1ラウンドあたり1マイクロ秒未満でデコードすることができます（X基底の測定値のみを処理する場合は距離19まで、ただし大規模な状況ではX基底とZ基底の両方を処理する必要があります）。
 さらに、実行時間はグラフのノード数にほぼ比例しています。
 
-The plot below compares the performance of PyMatching v2 with the previous 
-version (v0.7) as well as with NetworkX for decoding surface code circuits with circuit-level depolarising noise. 
-All decoders were run on a single core of an M1 processor, processing both the X and Z basis measurements.
-The equations T=N^x in the legend (and plotted as dashed lines) are 
-obtained from a fit to the same dataset for 
-distance > 10, where N is the number of detectors (nodes) per round, and T is the decoding time per round.
-See the [benchmarks](https://github.com/oscarhiggott/PyMatching/raw/master/benchmarks) folder in the repository 
-for the data and stim circuits, as well as additional benchmarks.
-
+以下のグラフでは、回路レベルの脱分極ノイズを含む表面符号回路のデコードにおいて、PyMatching v2と旧バージョン(v0.7)、NetworkXを比較したものです。
+すべてのデコーダはM1プロセッサのシングルコアで実行され、XとZの両方の基底の測定値を処理しました。
+凡例にあるT=N^xの式（および破線でプロット）は、同じデータに対するフィットから得られたものです。
+ここで、Nは1ラウンドあたりの検出器（ノード）数、Tは1ラウンドあたりの復号化時間です。
+データおよびstim回路、他のベンチマークについてはリポジトリの[benchmarks](https://github.com/oscarhiggott/PyMatching/raw/master/benchmarks)フォルダを参照してください。
 
 ![PyMatching new vs old vs NetworkX](https://github.com/oscarhiggott/PyMatching/raw/master/benchmarks/surface_codes/surface_code_rotated_memory_x_p_0.001_d_5_7_9_13_17_23_29_39_50_both_bases/pymatching_v0.7_vs_pymatching_v2_vs_networkx_timing_p=0.001_per_round_both_bases_decoded.png)
-
 
 Sparse blossom is conceptually similar to the approach described in [this paper](https://arxiv.org/abs/1307.1740) 
 by Austin Fowler, although our approach differs in many of the details (which will be explained in our upcoming paper).
@@ -67,10 +57,16 @@ in a similar way to how clusters are grown in Union-Find, whereas our approach i
 and uses a global priority queue to grow alternating trees.
 Yue also has a paper coming soon, so stay tuned for that as well.
 
+Sparse blossom は Austin Fowler の [論文](https://arxiv.org/abs/1307.1740) に記載されているものと概念的に似たアプローチとなっていますが、我々のアプローチは細部が色々と異なっています(これについては我々の次の論文で説明されます)。
+また、最近[fusion-blossom](https://pypi.org/project/fusion-blossom/)ライブラリーをリリースしたYue Wuによる非常に素晴らしい独立した研究にも類似点があります。
+我々のアプローチとの違いの1つは、fusion-blossomは交互木の探索領域を、Union-Findでクラスタが成長するのと同じような方法で成長させるのに対し、我々のアプローチは時系列に沿って進行することです。
+そして、グローバルな優先順位キューを使用して、交互木を成長させます。
+Yueは近々論文も発表する予定ですので、そちらもご期待ください。
+
 ## インストール
 
-The latest version of PyMatching can be downloaded and installed from [PyPI](https://pypi.org/project/PyMatching/) 
-with the command:
+PyMatchingの最新版は[PyPI](https://pypi.org/project/PyMatching/)からダウンロードしてインストールすることができます。
+以下のコマンドでインストールできます。
 
 ```
 pip install pymatching --upgrade
