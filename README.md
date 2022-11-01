@@ -6,16 +6,14 @@
 [![PyPI version](https://badge.fury.io/py/PyMatching.svg)](https://badge.fury.io/py/PyMatching)
 [![Unitary Fund](https://img.shields.io/badge/Supported%20By-UNITARY%20FUND-brightgreen.svg?style=for-the-badge)](http://unitary.fund)
 
-PyMatching is a fast Python/C++ library for decoding quantum error correcting (QEC) codes using the Minimum Weight
-Perfect Matching (MWPM) decoder.
-Given the syndrome measurements from a quantum error correction circuit, the MWPM decoder finds the most probable set 
-of errors, given the assumption that error mechanisms are _independent_, as well as _graphlike_ (each error causes 
-either one or two detection events).
-The MWPM decoder is the most popular decoder for decoding [surface codes](https://arxiv.org/abs/quant-ph/0110143), 
-and can also be used to decode various other code families, including 
-[subsystem codes](https://arxiv.org/abs/1207.1443), 
-[honeycomb codes](https://quantum-journal.org/papers/q-2021-10-19-564/) and 
-[2D hyperbolic codes](https://arxiv.org/abs/1506.04029).
+PyMatchingは、量子誤り訂正（QEC）符号の復号のための高速なPython/C++ライブラリで、MWPM（Minimum Weight Perfect Matching、最小重み完全マッチング問題）デコーダを使用しています。
+量子誤り訂正回路からのシンドローム測定値が与えられると、
+MWPMデコーダは、誤りの発生は独立であり、かつグラフ的であるという仮定（各誤りは1つまたは2つの検出イベントを引き起こす）のもと、最も可能性の高い誤り箇所の集合を探索します。
+MWPMデコーダは、[表面符号](https://arxiv.org/abs/quant-ph/0110143)を復号するための最も一般的なデコーダです。
+また、以下のような他のさまざまな符号のデコードに使用できます。
+[サブシステム符号](https://arxiv.org/abs/1207.1443)。
+[ハニカム符号](https://quantum-journal.org/papers/q-2021-10-19-564/)、
+[2次元双曲線符号](https://arxiv.org/abs/1506.04029)
 
 Version 2 includes a new implementation of the blossom algorithm which is **100-1000x faster** than previous versions
 of PyMatching. 
@@ -250,8 +248,7 @@ see [the documentation](https://pymatching.readthedocs.io).
 
 ## Attribution
 
-A paper on our new implementation used in PyMatching version 2 (sparse blossom) will be published soon. In the meantime, please 
-cite:
+PyMatching version 2で使用されている新しい実装（sparse blossom）に関する論文は近日中に発表される予定です。それまでの間、以下の論文の引用をお願いします。
 
 ```
 @misc{pymatchingv2,
@@ -264,8 +261,7 @@ cite:
 }
 ```
 
-Note: the existing PyMatching [paper](https://arxiv.org/abs/2105.13082) descibes the implementation in version 0.7 and 
-earlier of PyMatching (not v2).
+注釈: 既存のPyMatchingの[論文](https://arxiv.org/abs/2105.13082)では、バージョン0.7以前のPyMatchingの実装について記述されています。
 
 ## Acknowledgements
 
