@@ -70,12 +70,6 @@ PyMatching はチェックマトリックス、 `stim.DetectorErrorModel` 、 `n
 
 ### Stim回路のデコード
 
-PyMatching can be combined with [Stim](https://github.com/quantumlib/Stim). Generally, the easiest and fastest way to 
-do this is using [sinter](https://pypi.org/project/stim/) (use v1.10.0 or later), which uses PyMatching and Stim to run 
-parallelised monte carlo simulations of quantum error correction circuits.
-However, in this section we will use Stim and PyMatching directly, to demonstrate how their Python APIs can be used.
-To install stim, run `pip install stim --upgrade`.
-
 PyMatchingは[Stim](https://github.com/quantumlib/Stim)と組み合わせることができます。
 [sinter](https://pypi.org/project/stim/) (v1.10.0、あるいはより最新のバージョンを使用してください)は、PyMatchingとStimを使って、量子エラー訂正回路の並列モンテカルロシミュレーションを実行するもので、一般に最も簡単で速い方法です。
 しかし、このセクションでは、StimとPyMatchingを直接使用し、Python APIの使用方法について説明します。
@@ -92,12 +86,6 @@ circuit = stim.Circuit.generated("surface_code:rotated_memory_x",
                                  rounds=5, 
                                  after_clifford_depolarization=0.005)
 ```
-
-Next, we use stim to generate a `stim.DetectorErrorModel` (DEM), which is effectively a 
-[Tanner graph](https://en.wikipedia.org/wiki/Tanner_graph) describing the circuit-level noise model.
-By setting `decompose_errors=True`, stim decomposes all error mechanisms into _edge-like_ error 
-mechanisms (which cause either one or two detection events).
-This ensures that our DEM is graphlike, and can be loaded by pymatching:
 
 次に、stim を用いて `stim.DetectorErrorModel` (DEM) を生成します。これは、実質的には 
 [Tannerグラフ](https://en.wikipedia.org/wiki/Tanner_graph)であり、回路レベルのノイズモデルを記述します。
@@ -138,6 +126,12 @@ The element `H[i,j]` of `H` is 1 if parity check `i` is flipped by error mechani
 To be used by PyMatching, the error mechanisms in `H` must be _graphlike_.
 This means that each column must contain either one or two 1s (if a column has a single 1, it represents a half-edge 
 connected to the boundary).
+
+また、バイナリの[パリティチェック行列](https://en.wikipedia.org/wiki/Parity-check_matrix)、Tannerグラフの別の表現、から `pymatching.Matching` オブジェクトをロードすることもできます。
+パリティチェック行列 `H` の各行はパリティチェックに対応し、各列はエラー機構に対応します。
+H` の要素 `H[i,j]` は、パリティチェック `i` がエラー機構 `j` によって反転された場合に 1 となり、そうでない場合に 0 となります。
+PyMatching で使用するためには、`H` のエラー機構は _graphlike_ （グラフ的）である必要があります。
+これは、各列には1つまたは2つの1が含まれていなければならないことを意味します（列が1つの1を持つ場合、それは境界に接続されたハーフエッジを表します）。
 
 We can give each edge in the graph a weight, by providing PyMatching with a `weights` numpy array.
 Element `weights[j]` of the `weights` array sets the edge weight for the edge corresponding to column `j` of `H`.
