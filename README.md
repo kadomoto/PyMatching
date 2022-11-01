@@ -118,26 +118,17 @@ print(num_errors)  # prints 8
 
 ### パリティチェック行列からの読み込み
 
-We can also load a `pymatching.Matching` object from a binary
-[parity check matrix](https://en.wikipedia.org/wiki/Parity-check_matrix), another representation of a Tanner graph.
-Each row in the parity check matrix `H` corresponds to a parity check, and each column corresponds to an 
-error mechanism.
-The element `H[i,j]` of `H` is 1 if parity check `i` is flipped by error mechanism `j`, and 0 otherwise.
-To be used by PyMatching, the error mechanisms in `H` must be _graphlike_.
-This means that each column must contain either one or two 1s (if a column has a single 1, it represents a half-edge 
-connected to the boundary).
-
 また、バイナリの[パリティチェック行列](https://en.wikipedia.org/wiki/Parity-check_matrix)、Tannerグラフの別の表現、から `pymatching.Matching` オブジェクトをロードすることもできます。
-パリティチェック行列 `H` の各行はパリティチェックに対応し、各列はエラー機構に対応します。
-H` の要素 `H[i,j]` は、パリティチェック `i` がエラー機構 `j` によって反転された場合に 1 となり、そうでない場合に 0 となります。
-PyMatching で使用するためには、`H` のエラー機構は _graphlike_ （グラフ的）である必要があります。
+パリティチェック行列 `H` の各行はパリティチェックに対応し、各列は誤り要因に対応します。
+H` の要素 `H[i,j]` は、パリティチェック `i` が誤り要因 `j` によって反転された場合に 1 となり、そうでない場合に 0 となります。
+PyMatching で使用するためには、`H` の誤り要因は _graphlike_ （グラフ的）である必要があります。
 これは、各列には1つまたは2つの1が含まれていなければならないことを意味します（列が1つの1を持つ場合、それは境界に接続されたハーフエッジを表します）。
 
-We can give each edge in the graph a weight, by providing PyMatching with a `weights` numpy array.
-Element `weights[j]` of the `weights` array sets the edge weight for the edge corresponding to column `j` of `H`.
-If the error mechanisms are treated as independent, then we typically want to set the weight of edge `j` to 
-the log-likelihood ratio `log((1-p_j)/p_j)`, where `p_j` is the error probability associated with edge `j`.
-With this setting, PyMatching will find the most probable set of error mechanisms, given the syndrome.
+PyMatchingに `weights` というnumpy配列を与えることで、グラフ内の各エッジに重みを与えることができます。
+`weights` 配列の要素 `weights[j]` は、 `H` の列 `j` に対応するエッジの重みを設定します。
+エラー要因が独立したものとして扱われる場合、通常、エッジ `j` の重みは `log((1-p_j)/p_j)` として設定されます。
+ここで、 `p_j` はエッジ `j` に関連する誤り確率です。
+この設定により、PyMatchingはシンドロームが与えられたときに、最も確率の高い誤り要因の集合を見つけます。
 
 With PyMatching configured using `H` and `weights`, decoding a binary syndrome vector `syndrome` (a numpy array 
 of length `H.shape[0]`) corresponds to finding a set of errors defined in a binary `predictions` vector 
