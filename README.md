@@ -89,7 +89,7 @@ circuit = stim.Circuit.generated("surface_code:rotated_memory_x",
 
 次に、stim を用いて `stim.DetectorErrorModel` (DEM) を生成します。これは、実質的には 
 [Tannerグラフ](https://en.wikipedia.org/wiki/Tanner_graph)であり、回路レベルのノイズモデルを記述します。
-`decompose_errors=True` を設定することにより、stim はすべてのエラー機構を _edge-like_ エラー機構（1つまたは2つの検出イベントを引き起こす）に分解します。
+`decompose_errors=True` を設定することにより、stim はすべてのエラーメカニズムを _edge-like_ エラーメカニズム（1つまたは2つの検出イベントを引き起こす）に分解します。
 これにより、DEMはグラフ的になり、pymatchingで読み込むことができるようになります。
 
 ```python
