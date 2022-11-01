@@ -65,10 +65,6 @@ pip install pymatching --upgrade
 
 ## 使い方
 
-PyMatching can load matching graphs from a check matrix, a `stim.DetectorErrorModel`, a `networkx.Graph`, a 
-`retworkx.PyGraph` or by adding edges individually with `pymatching.Matching.add_edge` and 
-`pymatching.Matching.add_boundary_edge`.
-
 PyMatching はチェックマトリックス、 `stim.DetectorErrorModel` 、 `networkx.Graph` 、 `retworkx.PyGraph` からマッチンググラフを読み込むことができます。
 あるいは、`pymatching.Matching.add_edge` と `pymatching.Matching.add_boundary_edge` を使って個別にエッジを追加することができます。
 
@@ -79,6 +75,11 @@ do this is using [sinter](https://pypi.org/project/stim/) (use v1.10.0 or later)
 parallelised monte carlo simulations of quantum error correction circuits.
 However, in this section we will use Stim and PyMatching directly, to demonstrate how their Python APIs can be used.
 To install stim, run `pip install stim --upgrade`.
+
+PyMatchingは[Stim](https://github.com/quantumlib/Stim)と組み合わせることができます。
+[sinter](https://pypi.org/project/stim/) (v1.10.0、あるいはより最新のバージョンを使用してください)は、PyMatchingとStimを使って、量子エラー訂正回路の並列モンテカルロシミュレーションを実行するもので、一般に最も簡単で速い方法です。
+しかし、このセクションでは、StimとPyMatchingを直接使用し、Python APIの使用方法について説明します。
+Stimをインストールするには、`pip install stim --upgrade` を実行してください。
 
 First, we generate a stim circuit. Here, we use a surface code circuit included with stim:
 
