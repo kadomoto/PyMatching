@@ -19,7 +19,7 @@ MWPMデコーダは、[表面符号](https://arxiv.org/abs/quant-ph/0110143)を�
 バージョン2にはblossomアルゴリズムの新しい実装が含まれており、以前のバージョンよりも**100-1000倍**高速になりました。
 PyMatching は、境界のあるなしに関わらず、任意の重み付きグラフを使用して設定することができ、
 Craig Gidneyの[Stim](https://github.com/quantumlib/Stim)ライブラリと組み合わせて、回路レベルのノイズがある場合のエラー訂正回路のシミュレーションとデコードを行うことができます。
-と組み合わせて、回路レベルのノイズがある場合のエラー訂正回路をシミュレートし、デコードすることができます。[sinter](https://pypi.org/project/sinter/) パッケージでは、Stim と 
+[sinter](https://pypi.org/project/sinter/) パッケージでは、Stim と 
 PyMatching を組み合わせて、量子エラー訂正回路のモンテカルロ・サンプリングを高速・並列に実行します。
 
 Documentation for PyMatching can be found at: [pymatching.readthedocs.io](https://pymatching.readthedocs.io/en/stable/)
@@ -27,15 +27,18 @@ Documentation for PyMatching can be found at: [pymatching.readthedocs.io](https:
 To see how stim, sinter and pymatching can be used to estimate the threshold of an error correcting code with 
 circuit-level noise, try out the [stim getting started notebook](https://github.com/quantumlib/Stim/blob/main/doc/getting_started.ipynb).
 
+PyMatchingのドキュメントは[pymatching.readthedocs.io](https://pymatching.readthedocs.io/en/stable/) をご覧ください。
+
+stim, sinter, pymatchingによって回路レベルのノイズを含む誤り訂正符号の閾値を推定する方法については、[stim getting started notebook](https://github.com/quantumlib/Stim/blob/main/doc/getting_started.ipynb)を試してみてください。
+
 ## Version 2の100倍以上高速な新実装について
 
-Version 2 features a new implementation of the blossom algorithm, which I wrote with Craig Gidney.
-Our new implementation, which we refer to as the _sparse blossom_ algorithm, can be seen as a generalisation of the 
-blossom algorithm to handle the decoding problem relevant to QEC. 
-We solve the problem of finding minimum-weight paths between detection events in a detector graph 
-_directly_, which avoids the need to use costly all-to-all Dijkstra searches to find a MWPM in a derived 
-graph using the original blossom algorithm.
-The new version is also exact - unlike previous versions of PyMatching, no approximation is made.
+バージョン2は、私がCraig Gidneyと共同で書いたblossomアルゴリズムの新しい実装を特徴としています。
+私たちの新しい実装は、_sparse blossom_ アルゴリズムと呼ばれ、QECに関連する復号問題を扱うためのblossomアルゴリズムの一般化として見ることができます。
+blossomアルゴリズムを一般化して、QECに関連する復号化問題を扱えるようにしたものです。
+我々は、検出グラフの検出イベント間の最小重みの経路を見つける問題を _直接_ 解決します。
+これによって、元のblossomアルゴリズムを使用した際に発生する派生グラフのMWPMを見つけるためのコストのかかる全対全ダイクストラ探索を回避することができます。
+新しいバージョンはまたexactです - 以前のバージョンのPyMatchingとは異なり、近似は行われません。
 
 Our new implementation is **over 100x faster** than previous versions of PyMatching, and is 
 **over 100,000x faster** than NetworkX (benchmarked with surface code circuits). At 0.1% circuit-noise, PyMatching can 
@@ -43,6 +46,11 @@ decode both X and Z basis measurements of surface code circuits up to distance 1
 of syndrome extraction on a single core (or up to distance 19 if only X-basis measurements are processed - however 
 both X and Z basis measurements must be decoded at scale). Furthermore, the runtime is roughly linear in the number 
 of nodes in the graph.
+
+我々の新しい実装は、以前のバージョンのPyMatchingと比較して**100倍以上**高速です。
+NetworkXに比べて**100,000倍**の速度です(表面符号回路でベンチマークした場合)。回路ノイズが0.1%の場合、PyMatchingは
+距離13までの表面符号回路のXおよびZ基底を、シングルコアでのシンドローム解析1ラウンドあたり1マイクロ秒未満でデコードすることができます（X基底の測定値のみを処理する場合は距離19まで、ただし大規模な状況ではX基底とZ基底の両方を処理する必要があります）。
+さらに、実行時間はグラフのノード数にほぼ比例しています。
 
 The plot below compares the performance of PyMatching v2 with the previous 
 version (v0.7) as well as with NetworkX for decoding surface code circuits with circuit-level depolarising noise. 
